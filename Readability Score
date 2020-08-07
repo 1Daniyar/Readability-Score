@@ -1,0 +1,20 @@
+package readability;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        String text = Files.readString(Path.of(args[0]));
+        int characters = text.replaceAll("\\s+", "").length();
+        int words = text.split("\\s+").length;
+        int sentences = text.split("[.!?]").length;
+        double score = 4.71 * ((double) characters / words) + 0.5 * ((double) words / sentences) - 21.43;
+        String[] ages = {"5-6", "6-7", "7-9", "9-10", "10-11", "11-12", "12-13", "13-14",
+        "14-15", "15-16", "16-17", "17-18", "18-24", "24+"};
+        System.out.printf("Words: %d\nSentences: %d\nCharacters: %d\nThe score is: %.2f\n" +
+                "This text should be understood by %s year olds", words, sentences, characters, score,
+                ages[(int) Math.ceil(score) - 1]);
+    }
+}
